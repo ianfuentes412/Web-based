@@ -1,0 +1,213 @@
+<html><head>
+    <title>TRU Chatting</title>
+    <style>
+        #ddm {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+        }
+        #ddm li, #ddm ul {
+            list-style: none;
+            padding: 0;
+            background-color: Gray;
+            cursor:pointer;
+        }
+        #ddm ul {
+            border: 1px solid black;
+        }
+        #ddm > li {
+            position: relative;
+        }
+        #ddm > li > ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+        }
+        #ddm > li > ul > li { padding: 5px; }
+        #ddm li:hover {
+            background-color: #eee;
+        }
+        #ddm > li:hover > ul {
+            display: block;
+        }
+
+        .modal-window {
+            display: none;
+            background-color: White;
+            width: 400px; height: 300px; border: 1px solid black;
+            position: absolute; top: 100px; left: calc(50% - 200px);
+            z-index: 999;
+            padding: 10px;
+        }
+        .modal-label {
+            display: inline-block;
+            width: 80px;
+        }
+        
+        #blanket {
+            display: none;
+            background-color: LightGrey;
+            opacity: 0.5;
+            position: fixed; top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 998;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align:center">TRU Chatting App with Node Web Server and MongoDB</h1>
+    <hr>
+    
+    <!-- menu -->
+    <ul id="ddm">
+        <li style="width: 50px;"><img src="menu_icon.png" width="50px" height="50px">
+            <ul style="width:120px">
+                <li id="menu-signin">Sign In</li>
+                <li id="menu-join">Join</li>
+                <li id="menu-delete">Delete</li>
+                <li id="menu-close">Close / Sign Out</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <!-- blanket for modal windows -->
+    <div id="blanket">
+    </div>
+
+    <!-- SignIn modal window-->
+    <div id="signin-box" class="modal-window">
+        <h2 style="text-align:center">Sign In</h2>
+        <br>
+        <form method="post" action="chat_controller.sjs">
+            <input type="hidden" name="page" value="StartPage">
+            <input type="hidden" name="command" value="SignIn">
+            <label class="modal-label">Username:</label>
+            <input type="text" name="username" required=""><br>
+            <br>
+            <label class="modal-label">Password:</label>
+            <input type="password" name="password" required=""><br>
+            <br>
+            <input type="submit">&nbsp;&nbsp;
+            <input id="cancel-signin-button" type="button" value="Cancel">&nbsp;&nbsp;
+            <input type="reset">
+        </form>
+    </div>
+    
+    <!-- Join modal window-->
+    <div id="join-box" class="modal-window">
+        <h2 style="text-align:center">Join</h2>
+        <br>
+        <form method="post" action="chat_controller.sjs">
+            <input type="hidden" name="page" value="StartPage">
+            <input type="hidden" name="command" value="Join">
+            <label class="modal-label">Username:</label>
+            <input type="text" name="username" required=""><br>
+            <br>
+            <label class="modal-label">Password:</label>
+            <input type="password" name="password" required=""><br>
+            <br>
+            <label class="modal-label">Email:</label>
+            <input type="text" name="email" required=""><br>
+            <br>
+            <input type="submit">&nbsp;&nbsp;
+            <input id="cancel-join-button" type="button" value="Cancel">&nbsp;&nbsp;
+            <input type="reset">
+        </form>
+    </div>
+    
+    <!-- Delete modal window-->
+    <div id="delete-box" class="modal-window">
+        <h2 style="text-align:center">Delete</h2>
+        <br>
+        <form method="post" action="chat_controller.sjs">
+            <input type="hidden" name="page" value="StartPage">
+            <input type="hidden" name="command" value="Delete">
+            <label class="modal-label">Username:</label>
+            <input type="text" name="username" required=""><br>
+            <br>
+            <label class="modal-label">Password:</label>
+            <input type="password" name="password" required=""><br>
+            <br>
+            <input type="submit">&nbsp;&nbsp;
+            <input id="cancel-delete-button" type="button" value="Cancel">&nbsp;&nbsp;
+            <input type="reset">
+        </form>
+    </div>
+    
+    <!-- Close invisible modal window-->
+    <div id="close-box" class="modal-window" style="display:none">
+        <h2 style="text-align:center">Close / Sign Out</h2>
+        <br>
+        <form id="close-form" method="post" action="chat_controller.sjs">
+            <input type="hidden" name="page" value="StartPage">
+            <input type="hidden" name="command" value="Close">
+            <input type="submit">&nbsp;&nbsp;
+            <input id="cancel-close-button" type="button" value="Cancel">&nbsp;&nbsp;
+            <input type="reset">
+        </form>
+    </div>
+
+
+
+<script>
+    function show_join() {
+        document.getElementById('blanket').style.display = 'block';
+        document.getElementById('join-box').style.display = 'block';
+    };
+    
+    function show_signin() {
+        document.getElementById('blanket').style.display = 'block';
+        document.getElementById('signin-box').style.display = 'block';
+    };
+    
+    function show_delete() {
+        document.getElementById('blanket').style.display = 'block';
+        document.getElementById('delete-box').style.display = 'block';
+    };
+    
+    document.getElementById('menu-signin').addEventListener('click', function() {
+        document.getElementById('blanket').style.display = 'block';
+        document.getElementById('signin-box').style.display = 'block';
+    });
+    document.getElementById('menu-join').addEventListener('click', function() {
+        document.getElementById('blanket').style.display = 'block';
+        document.getElementById('join-box').style.display = 'block';
+    });
+    document.getElementById('menu-delete').addEventListener('click', function() {
+        document.getElementById('blanket').style.display = 'block';
+        document.getElementById('delete-box').style.display = 'block';
+    });
+    document.getElementById('blanket').addEventListener('click', function() {
+        document.getElementById('blanket').style.display = 'none';
+        document.getElementById('signin-box').style.display = 'none';
+        document.getElementById('join-box').style.display = 'none';
+        document.getElementById('delete-box').style.display = 'none';
+    });
+    document.getElementById('cancel-signin-button').addEventListener('click', function() {
+        document.getElementById('blanket').style.display = 'none';
+        document.getElementById('signin-box').style.display = 'none';
+        document.getElementById('join-box').style.display = 'none';
+        document.getElementById('delete-box').style.display = 'none';
+    });
+    document.getElementById('cancel-join-button').addEventListener('click', function() {
+        document.getElementById('blanket').style.display = 'none';
+        document.getElementById('signin-box').style.display = 'none';
+        document.getElementById('join-box').style.display = 'none';
+        document.getElementById('delete-box').style.display = 'none';
+    });
+    document.getElementById('cancel-delete-button').addEventListener('click', function() {
+        document.getElementById('blanket').style.display = 'none';
+        document.getElementById('signin-box').style.display = 'none';
+        document.getElementById('join-box').style.display = 'none';
+        document.getElementById('delete-box').style.display = 'none';
+    });
+
+    document.getElementById('menu-close').addEventListener('click', function() {
+        document.getElementById('close-form').submit();
+    });
+
+</script>
+</body></html>
