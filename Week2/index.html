@@ -1,0 +1,68 @@
+<html>
+
+<head>
+    <title>Callback</title>
+    <script src='tjq.js'></script>
+</head>
+
+<body>
+    <h1 style='text-align:center'>Echo and Calculator Apps with Callback Functions</h1>
+    <hr>
+    
+    <h2>Echo</h2>
+        Message: <input id='message'><br>
+        <button id='echo'>Echo</button><br>
+        Echoed message: <span id='echoed-message'></span>
+    <hr>
+    
+    <h2>Calculator</h2>
+        <span>Operand1: <input id='operand1'></input><span><br>
+        <span>Operand2: <input id='operand2'></input><span><br>
+        <span>Operation: <input id='operation' size=30 placeholder='add, subtract, multiply, or divide'></input><body><br>
+        <button id='calculate'>Calculate</button><br>
+        Computation result: <span id='computation-result'></span>
+</body>
+    
+<script>
+    // echo() and calculator() should pass the result back through a callback function.
+    
+    function echo(message, callback) {
+        let uri = "server_echo.php?message=" + message;
+        $.get(uri, function(data) {
+            callback(data)
+        });
+    }
+    
+    const calculator = function (operand1, operand2, operation, callback) {
+        let uri = "server_calculator.php?opr1=" + operand1 + "&opr2=" + operand2 + "&operation=" + operation;
+        $.get(uri, function(data) {
+            callback(data)
+        });
+    };
+</script>
+
+<script>
+$ijf(document).ready(function(){
+    console.log("Josue #1");
+});
+
+    document.getElementById('echo').addEventListener('click', function () {
+        let message = document.getElementById('message').value;
+        message = "Message: " + message;
+        echo(message, function(result) {
+            $('#echoed-message').text(result);
+        });  // The echoed message should be displayed in <span id='echoed-message'>
+    });
+    
+    document.getElementById('calculate').addEventListener('click', function () {
+        let opr1 = $('#operand1').val();
+        let opr2 = $('#operand2').val();
+        let operation = $('#operation').val();
+        calculator(opr1, opr2, operation, function(result) {
+            $('#computation-result').text(result);
+        });  // The result should be displayed in <span id='computation-result'>
+    });
+
+</script>
+
+</html>

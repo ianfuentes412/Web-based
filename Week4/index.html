@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>I love you Manhoon Lee</title>
+    <script src='tjq.js'></script>
+</head>
+
+    <h1 style='text-align:center'>Promise, Async, and Await</h1>
+    <hr>
+    <h2>Echo</h2>
+        Message: <input id='msg'><br>
+        <button id='echo-promise'>Echo</button><br>
+        Echoed message: <span id='echoed-message'> </span>
+    <hr>
+
+    <h2>Calculator</h2>
+        <span>Operand1: <input id='opr1'></input><span><br>
+        <span>Operand2: <input id='opr2'></input><span><br>
+        <span>Operation: <input id='operation' placeholder='add, sub, mult, or div'></input><span><br>
+        <button id='cal-promise'>Calculate</button><br>
+        Computation result: <span id='computation-result'> </span>
+    
+    <script>
+
+            
+
+    </script>
+
+    <script>
+        $ijf(document).ready(function(){
+
+            $ijf('#echo-promise').click(function() {
+                let url = 'server_echo.php?message=' + $ijf('#msg').val();
+                $ijf('#echoed-message').load(url);
+                $ijf('#echoed-message').css('background-color','cyan');
+            });
+
+            $ijf('#cal-promise').click(function(){
+                let url = 'server_calculator.php?opr1=' + $ijf('#opr1').val()+"&opr2="+ $ijf('#opr2').val()+"&operation="+ $ijf('#operation').val();
+                $ijf.get(url,data => {
+                    $ijf('#computation-result').html(data);
+                    $ijf('#computation-result').css('background-color','cyan');
+                })
+            });
+
+            
+    });
+
+
+        
+
+
+
+    </script>
+</body>
+</html>

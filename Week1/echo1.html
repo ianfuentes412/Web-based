@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Echo Library</title>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+</head>
+
+<body>
+    <h1 style='text-align:center'>Echo Library</h1>
+    <hr>
+    <h2>Using object constructor</h2>
+    <hr>
+    <button id='connect1'>Connect1 to server_echo.php</button><br>
+    <button id='close1'>Close1</button><br><br>
+    Message: <input id='message1'> 
+    <button id='echo1'>Echo1</button><br>
+
+    <script>
+        // The first case that uses an object constructor
+        function EchoLib1() {
+            this.connected = false;
+            this.url = null;
+            this.info = function(){
+                return "URL: " + this.url + ", Connected: " + this.connected;
+            };
+
+            this.connect = function(serverURL){
+                this.connected = true;
+                this.url = serverURL;
+            };
+
+            this.close = function(){
+                this.connected = false;
+            };
+
+            this.echo = function(str){
+                if(this.connected == true){
+                let uri = "server_echo.php" + "?message=" + str;
+                    $.get(uri, function(data){
+                        alert(data);
+                    });
+                }
+                else
+                    alert("Error! Echo is not Connected!");
+            };
+        };
+    </script>
+    <script>
+        let echolib1 = new EchoLib1();
+        
+        // When the above connect button is clicked
+        $('#connect1').on('click', function() {
+            echolib1.connect('server_echo.php');
+            alert(echolib1.info());
+        });
+        
+        // When the above close button is clicked
+        $('#close1').on('click', function(){
+            echolib1.close('server_echo.php');
+            alert(echolib1.info());
+        });
+        
+        // When the above echo button is clicked
+        $('#echo1').on('click', function() {
+            let message = $('#message1').val();
+            echolib1.echo(message);
+        });
+    </script>
+
+
+
+    <br>
+    <hr>
+    <h2>Using a function that returns an object</h2>
+    <hr>
+    <button id='connect2'>Connect2 to server_echo.php</button><br>
+    <button id='close2'>Close2</button><br><br>
+    Message: <input id='message2'> 
+    <button id='echo2'>Echo2</button><br>
+    
+    <script>
+        // The second case that uses a function that returns an object
+        function EchoLib2() {
+            return{
+                connected:false,
+                url:null,
+                info:function() {
+                    return "URL: " + this.url + ", Connected: " + this.connected;
+                },
+
+                connect:function(serverURL){
+                    this.connected = true;
+                    this.url = serverURL;
+                },
+                close:function(){
+                    this.connected = false;
+                },
+
+                echo:function(str){
+                    if(this.connected == true){
+                    let uri = "server_echo.php" + "?message=" + str;
+                    $.get(uri, function(data){
+                        alert(data);
+                    });
+                }
+                else
+                    alert("Error! Echo is not Connected!");
+                }
+            }
+        }
+    </script>
+    <script>
+        let echolib2 = new EchoLib2;
+        
+        // When the above connect button is clicked
+        $('#connect2').on('click', function() {
+            echolib2.connect('server_echo.php');
+            alert(echolib2.info());
+        });
+        
+        // When the above close button is clicked
+        $('#close2').on('click', function() {
+            echolib2.close("server_echo.php");
+            alert(echolib2.info());
+        });
+        
+        // When the above echo button is clicked
+        $('#echo2').on('click', function() {
+            let message = $('#message2').val();
+            echolib2.echo(message);
+        });
+    </script>
+</body>
+</html>

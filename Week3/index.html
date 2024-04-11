@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Async, and Await</title>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
+</head>
+
+<body>
+    <h1 style='text-align:center'>Promise, Async, and Await</h1>
+    <hr>
+    <h2>Echo</h2>
+        Message: <input id='msg'><br>
+        <button id='echo-promise'>Echo with Promise</button><br>
+        <button id='echo-async-await'>Echo with async and await</button><br>
+        Echoed message: <span id='echoed-message'></span>
+    <hr>
+    <h2>Calculator</h2>
+        <span>Operand1: <input id='opr1'></input><span><br>
+        <span>Operand2: <input id='opr2'></input><span><br>
+        <span>Operation: <input id='operation' placeholder='add, sub, mult, or div'></input><span><br>
+        <button id='cal-promise'>Calculate with Promise</button><br>
+        <button id='cal-async-await'>Calculate with async and await</button><br>
+        Computation result: <span id='computation-result'></span>
+    
+    <script>
+        var echo_promise = (msg) => new Promise((resolve, reject) => {
+            let uri = "server_echo.php?message=" + msg;
+                $.get(uri, function(data){
+                    resolve(data);
+                })
+                
+            })
+
+        var echo_promise_async = (msg) => new Promise((resolve, reject) => {
+            let uri = "server_echo.php?message=" + msg;
+                $.get(uri, function(data){
+                    resolve(data);
+                })
+                
+            })
+            
+        var calculator_promise = (operand1, operand2, operation, callback) => new Promise((resolve, reject) => {
+            let uri1 = "server_calculator.php?opr1=" + operand1 + "&opr2=" + operand2 + "&operation=" + operation;
+                $.get(uri1, function(data){ 
+                    resolve(data); 
+                })
+            });
+            var calculator_async = (operand1, operand2, operation, callback) => new Promise((resolve, reject) => {
+                let uri1 = "server_calculator.php?opr1=" + operand1 + "&opr2=" + operand2 + "&operation=" + operation;
+                $.get(uri1, function(data){ 
+                    resolve(data); 
+                })
+            });
+    </script>
+
+    <script>
+        document.getElementById('echo-promise').addEventListener('click', () => {
+                let message = document.getElementById('msg').value;
+                echo_promise(message).then((result) => {
+                    alert(result)
+                    document.getElementById("echoed-message").innerHTML = result;
+                })
+            });
+        document.getElementById('echo-async-await').addEventListener('click',  async () => {
+                let message = document.getElementById('msg').value;
+                let result = await echo_promise_async(message);
+                alert(result)
+                document.getElementById("echoed-message").innerHTML = result;
+            });
+            
+        document.getElementById('cal-promise').addEventListener('click', () => {
+                let opr1 = document.getElementById("opr1").value;
+                let opr2 = document.getElementById("opr2").value;
+                let operation = document.getElementById('operation').value;
+                calculator_promise(opr1, opr2, operation).then((result) => {
+                    alert(result)
+                    document.getElementById("computation-result").innerHTML = result;
+                });  // The result should be displayed in <span id='computation-result'>
+            });
+
+        document.getElementById('cal-async-await').addEventListener('click', async () => {
+                let opr1 = document.getElementById("opr1").value;
+                let opr2 = document.getElementById("opr2").value;
+                let operation = document.getElementById('operation').value;
+                let result = await calculator_async(opr1, opr2, operation);
+                alert(result)
+                document.getElementById("computation-result").innerHTML = result;
+            });
+    </script>
+</body>
+</html>

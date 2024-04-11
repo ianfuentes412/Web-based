@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Assignment 5</title>
+</head>
+<script src="tjq.js"></script>
+
+<div ijf-app="EchoApp">
+    <h1 style='text-align:center'>Echo and Calculator Apps with IJFJS</h1>
+    <hr>
+    <h2>Echo</h2>
+        Message: <input ijf-model='echoMsg'><br>
+        Echoed message: <span ijf-bind="echoMsg"> $ijf.echoMsg </span>
+    <hr>
+</div>
+
+    <h2>Calculator</h2>
+        <span>Operand1: <input ijf-model='op1'></input><span><br>
+        <span>Operand2: <input ijf-model='op2'></input><span><br>
+        <span>Operation: <input ijf-model='operand' placeholder='add, sub, mult, or div'></input><span><br>
+
+        Computation result: <span ijf-bind='op1, op2, operand'> calculate($ijf.op1,$ijf.op2,$ijf.operand) </span>
+    
+
+    <script>
+        window.addEventListener('load', function(){
+            $ijf.initialize();
+    });
+
+        calculate = (op1,op2, operand) => {
+            switch(operand){
+                case 'add':
+                    return Number(op1) + Number(op2);
+                     break;
+                case 'sub':
+                    return Number(op1) - Number(op2);
+                    break;
+                case 'mult':
+                    return Number(op1) * Number(op2);
+                    break;
+                case 'div':
+                    return Number(op1) / Number(op2);
+                    break;
+                default:
+                    return 'Error: Unknown Operation'
+            }
+        }
+
+
+
+        
+
+
+
+
+
+    </script>
+
+    <script>
+     
+
+
+    
+
+
+    
+    
+    
+    </script>
+</body>
+</html>

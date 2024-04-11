@@ -1,0 +1,2 @@
+var server = require('./server2');  // server2.js; the variable server represents all the exported functions in server2.js
+server.start();  // .start() is the function that is defined in server2.js and exported.
